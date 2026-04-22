@@ -1,0 +1,12 @@
+import * as THREE from 'three';
+
+export const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+
+camera.position.set(0.79, 0.65, 1.94);
+camera.lookAt(-1, 1, 0);
+

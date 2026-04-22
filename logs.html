@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Logs - Historial</title>
+    <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+
+    <nav class="title-bar">
+        <span class="title">Pomodoro</span>
+
+        <div class="window-controls">
+            <a href="index.html" class="logs-btn" title="Pomodoro">&#8592;</a>
+            <button id="sessions-btn" title="Ver sesiones">⚙</button>
+            <button>-</button>
+            <button>✕</button>
+        </div>
+
+    </nav>
+
+    
+
+    <div class="log-container">
+        <h1>📊 Historial de Pomodoros</h1>
+        <p class="subtitle">Revisa tu progreso y estadísticas</p>
+
+        <!-- Estadísticas -->
+        <div class="stats-container" id="statsContainer"></div>
+
+        <!-- Controles -->
+        <div class="controls">
+            <button class="refresh-btn" onclick="location.reload()">🔄 Actualizar</button>
+            <button class="btn-export" onclick="exportLogs()">📥 Descargar JSON</button>
+            <button class="btn-clear" onclick="clearAllLogs()">🗑️ Borrar todos</button>
+        </div>
+    </div>
+
+    <div id="logs-modal" class="modal hidden">
+        <div class="modal-content modal-logs">
+            <h2>Sesiones Registradas</h2>
+            <div id="logs-content">
+                <!---->
+                <div class="logs-section hidden">
+                    <div id="logsContainer"></div>
+                </div>
+                <!---->
+            </div>
+        
+            <button id="close-logs">Cerrar</button>
+        </div>
+    </div>
+
+    <script type="module" src="/src/pomodoro/logpage.js"></script>
+</body>
+</html>

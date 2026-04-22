@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro timer</title>
+    <link rel="stylesheet" href="/src/style.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+</head>
+<body>
+
+    <nav class="title-bar">
+        <span class="title">Pomodoro</span>
+
+        <div class="window-controls">
+            <a href="logs.html" class="logs-btn" title="Ver logs">📊</a>
+            <button id="settings-btn" title="config">⚙</button>
+            <button title="minizar">-</button>
+            <button title="cerrar">✕</button>
+        </div>
+
+    </nav>
+
+    <div class="pomodoro-container">
+       
+        <h1 id="session-label">WORK</h1>
+        <div class="timer-display">
+            25:00
+        </div>
+        
+        <div id="webgl"></div>
+
+
+        <div class="cycle-info subtitle">
+            Pomodoro: <span id="currentCycle">1</span> / <span id="totalPomodoros">12</span>
+        </div>
+
+        <div class="controls">
+            <button id="start-btn" class="btn start">Start</button>
+            <button id="pause-btn" class="btn pause">Pause</button>
+            <button id="reset-btn" class="btn reset">Reset</button>
+            <button id="skip-btn" class="btn skip">Skip</button>
+            <!--<a href="logs.html" style="display: inline-block; padding: 10px 20px; background: #667eea; color: white; border-radius: 5px; text-decoration: none; font-weight: 600; cursor: pointer;">📊 Ver Logs</a>-->
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Settings</h2>
+            <div id="settings-content">
+                <!---->
+                <div class="settings">
+                    <label for="work-duration">Work Duration (minutes):</label>
+                    <input type="number" id="work-duration" min="1" max="60" value="25">
+                </div>
+
+                <div class="settings">
+                    <label for="break-duration">Break Duration (minutes):</label>
+                    <input type="number" id="break-duration" min="1" max="60" value="5">
+                </div>
+                <div class="settings">
+                    <label for="long-break-duration">Long Break Duration (minutes):</label>
+                    <input type="number" id="long-break-duration" min="1" max="60" value="15">
+                </div>
+                <div class="setting">
+                    <label>Long break cada</label>
+                    <input type="number" id="cycles" min="1" value="4">
+                </div>
+                <div class="setting">
+                    <label>Total de pomodoros</label>
+                    <input type="number" id="total-pomodoros" min="1" value="12">
+                </div>
+                <div class="setting">
+                    <label>Notificaciones</label>
+                    <div class="notifications-buttons-row">
+                        <button id="notifications-yes" class="btn-notif-yes">Sí</button>
+                        <button id="notifications-no" class="btn-notif-no">No</button>
+                    </div>
+                </div>
+                <!---->
+            </div>
+        
+            <div class="settings-buttons">
+                <button id="reset-settings">Reset</button>
+                <button id="close-settings">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="notifications-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Notificaciones</h2>
+            <p style="color: #afb8c7; font-size: 12px;">¿Quieres recibir notificaciones?</p>
+            <div class="notifications-popup-checkbox">
+                <input type="checkbox" id="notifications-checkbox">
+                <label for="notifications-checkbox" style="color: #e5e7eb; font-size: 12px; cursor: pointer;">Habilitar notificaciones</label>
+            </div>
+            <div class="settings-buttons">
+                <button id="notifications-confirm" style="background-color: #0056d6;">Continuar</button>
+            </div>
+        </div>
+    </div>
+<script type="module" src="/src/main.js"></script> 
+</body>
+</html>
