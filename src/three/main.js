@@ -11,9 +11,9 @@ import { createCRTMaterial } from './crtShader.js';
 import { startAnimation } from './animate.js';
 
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enablePan = false;   // ❌ no mover lateralmente
-controls.minPolarAngle = Math.PI / 3; // límite abajo
-controls.maxPolarAngle = Math.PI / 2; // límite arriba
+controls.enablePan = false;
+controls.minPolarAngle = Math.PI / 3;
+controls.maxPolarAngle = Math.PI / 2;
 controls.minAzimuthAngle = -Math.PI / 6;
 controls.maxAzimuthAngle = Math.PI / 6;
 
@@ -22,23 +22,18 @@ controls.dampingFactor = 0.05;
 controls.minDistance = 0.78;
 controls.maxDistance = 3;
 controls.target.set(0, 0.65, 0);
-// luces
+
 setupLights(scene);
 
-// piso
 const floor = createFloor();
 scene.add(floor);
 
-// video
-const { video, videoTexture } = createVideo();
+const { video, videoTexture } = await createVideo();
 
-// shader CRT
 const crtMaterial = createCRTMaterial(videoTexture);
 
-// TV
 loadTV(scene, crtMaterial);
 
-// animación
 startAnimation({
   scene,
   camera,

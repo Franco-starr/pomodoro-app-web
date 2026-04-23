@@ -398,7 +398,7 @@ window.onload = () => {
     }
 
     function initWorker() {
-        worker = new Worker('/src/worker.js', { type: "module" });
+        worker = new Worker('/workers/worker.js');
 
         worker.onmessage = function(e) {
             const { type, state } = e.data;

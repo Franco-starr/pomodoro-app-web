@@ -14,23 +14,27 @@ const breakVideos = Object.keys(
 ).map(path => '/' + path.replace('/public/', ''));
 
 export function createVideo() {
-  videoElement = document.createElement('video');
-  videoElement.src = '/videos/tv-sin-señal.mp4';
-  videoElement.loop = true;
-  videoElement.muted = true;
-  currentVideoSrc = '/videos/tv-sin-señal.mp4';
+  return new Promise((resolve) => {
+    videoElement = document.createElement('video');
+    videoElement.src = '/videos/tv-sin-señal.mp4';
+    videoElement.loop = true;
+    videoElement.muted = true;
+    currentVideoSrc = '/videos/tv-sin-señal.mp4';
 
-  videoElement.addEventListener('ended', handleVideoEnded);
+    videoElement.addEventListener('canplay', () => {
+      videoTexture = new THREE.VideoTexture(videoElement);
+      videoTexture.minFilter = THREE.LinearFilter;
+      videoTexture.magFilter = THREE.LinearFilter;
+      videoTexture.format = THREE.RGBAFormat;
 
-  videoElement.load();
-  videoElement.play().catch(err => console.error('Video play failed:', err));
+      const result = { video: videoElement, videoTexture };
+      videoElement.play().catch(err => console.error('Video play failed:', err));
+      resolve(result);
+    }, { once: true });
 
-  videoTexture = new THREE.VideoTexture(videoElement);
-  videoTexture.minFilter = THREE.LinearFilter;
-  videoTexture.magFilter = THREE.LinearFilter;
-  videoTexture.format = THREE.RGBAFormat;
-
-  return { video: videoElement, videoTexture };
+    videoElement.addEventListener('ended', handleVideoEnded);
+    videoElement.load();
+  });
 }
 
 function handleVideoEnded() {
