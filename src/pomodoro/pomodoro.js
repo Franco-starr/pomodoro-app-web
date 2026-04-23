@@ -7,27 +7,28 @@ import { setVideoMode } from '../three/video.js';
 
 let worker = null;
 
-window.onload = () => {
-    const defaultWorkDuration = 25;
-    const defaultShortBreakDuration = 5;
-    const defaultLongBreakDuration = 15;
-    const defaultLongBreakInterval = 4;
-    const defaultTotalPomodoros = 12;
+console.log("✅ pomodoro.js cargado - INICIANDO");
 
-    let workDuration = defaultWorkDuration;
-    let shortBreakDuration = defaultShortBreakDuration;
-    let longBreakDuration = defaultLongBreakDuration;
-    let longBreakInterval = defaultLongBreakInterval;
-    let totalPomodoros = defaultTotalPomodoros;
+const defaultWorkDuration = 25;
+const defaultShortBreakDuration = 5;
+const defaultLongBreakDuration = 15;
+const defaultLongBreakInterval = 4;
+const defaultTotalPomodoros = 12;
 
-    let mode = "work";
-    let pomodorosCompleted = 0;
-    let minutes = workDuration;
-    let seconds = 0;
-    let timerStarted = false;
-    let sessionStartDate = null;
-    let isRunning = false;
-    let pausedByWorker = false;
+let workDuration = defaultWorkDuration;
+let shortBreakDuration = defaultShortBreakDuration;
+let longBreakDuration = defaultLongBreakDuration;
+let longBreakInterval = defaultLongBreakInterval;
+let totalPomodoros = defaultTotalPomodoros;
+
+let mode = "work";
+let pomodorosCompleted = 0;
+let minutes = workDuration;
+let seconds = 0;
+let timerStarted = false;
+let sessionStartDate = null;
+let isRunning = false;
+let pausedByWorker = false;
 
     const timerDisplay = document.querySelector(".timer-display");
     const startBtn = document.getElementById("start-btn");
@@ -398,6 +399,7 @@ window.onload = () => {
     }
 
     function initWorker() {
+        console.log("🔧 Iniciando worker...");
         worker = new Worker('/workers/worker.js');
 
         worker.onmessage = function(e) {
@@ -617,7 +619,7 @@ window.onload = () => {
         };
 
         worker.onerror = function(err) {
-            console.error("❌ Error en worker:", err);
+            console.error("❌ Error en worker:", err.message, err);
         };
     }
 
@@ -731,6 +733,4 @@ window.onload = () => {
         }
     });
 
-    console.log('%c✅ Sistema de Logs del Pomodoro Cargado (con Web Worker)', 'color: green; font-size: 14px; font-weight: bold;');
-    console.log('%c📊 Ver historial en: logs.html', 'color: blue; font-size: 12px;');
-};
+    console.log('%c✅ Sistema de Pomodoro Listo', 'color: green; font-size: 14px; font-weight: bold;');

@@ -1,5 +1,7 @@
 "use strict";
 
+console.log("🔧 Worker iniciado");
+
 let state = {
     mode: "work",
     pomodorosCompleted: 0,
