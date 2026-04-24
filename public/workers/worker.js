@@ -145,6 +145,17 @@ function updateConfig(config) {
     state.longBreakDuration = config.longBreakDuration;
     state.longBreakInterval = config.longBreakInterval;
     state.totalPomodoros = config.totalPomodoros;
+
+    if (!state.isRunning) {
+        if (state.mode === "work") {
+            state.minutes = config.workDuration;
+        } else if (state.mode === "shortBreak") {
+            state.minutes = config.shortBreakDuration;
+        } else {
+            state.minutes = config.longBreakDuration;
+        }
+        state.seconds = 0;
+    }
 }
 
 function restoreFromMain(session) {
