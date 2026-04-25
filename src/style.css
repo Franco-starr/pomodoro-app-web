@@ -25,6 +25,16 @@ body {
     overflow: hidden;
 }
 
+/* Web: con color de fondo */
+body.is-web {
+    background: #1e1e2f;
+}
+
+/* Electron: transparente */
+body.is-electron {
+    background: transparent;
+}
+
 h1 {
     color: #facc15;
     margin-bottom: 10px;

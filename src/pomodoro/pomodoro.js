@@ -3,7 +3,7 @@ import { saveSession, loadSession, clearSession } from './localstorage.js';
 import { addLog } from './logs.js';
 import { playTickSound, playBellSound, stopTickSound, stopBellSound } from './sound.js';
 import { notifySessionStart, notifySessionEnd } from './notifications.js';
-import { setVideoMode } from '../three/video.js';
+import { setVideoMode, pauseVideo, resumeVideo } from '../three/video.js';
 
 let worker = null;
 
@@ -165,6 +165,7 @@ let pausedByWorker = false;
         updateDisplay();
         persistSession();
 
+        resumeVideo();
         worker.postMessage({ type: "START" });
     }
 
@@ -191,6 +192,7 @@ let pausedByWorker = false;
         addLog(sessionData);
         console.log('⏸️  Sesión pausada - Ciclos completados:', pomodorosCompleted);
 
+        pauseVideo();
         worker.postMessage({ type: "PAUSE" });
     }
 
@@ -400,7 +402,7 @@ let pausedByWorker = false;
 
     function initWorker() {
         console.log("🔧 Iniciando worker...");
-        worker = new Worker('/workers/worker.js');
+        worker = new Worker('./workers/worker.js');
 
         worker.onmessage = function(e) {
             const { type, state } = e.data;

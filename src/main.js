@@ -1,3 +1,10 @@
+// Detectar si es Electron o Web
+if (window.electronAPI) {
+    document.body.classList.add('is-electron');
+} else {
+    document.body.classList.add('is-web');
+}
+
 // THREE (escena 3D)
 console.log("📦 Importando three/main.js");
 import './three/main.js';

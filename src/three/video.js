@@ -4,22 +4,42 @@ let videoElement = null;
 let currentVideoSrc = null;
 let videoTexture = null;
 let currentMode = 'reset';
+const preloadedVideos = new Map();
 
 const workVideos = Object.keys(
   import.meta.glob('/public/videos/work/*.mp4', { eager: true })
-).map(path => '/' + path.replace('/public/', ''));
+).map(path => path.replace('/public/videos/', './videos/'));
 
 const breakVideos = Object.keys(
   import.meta.glob('/public/videos/break/*.mp4', { eager: true })
-).map(path => '/' + path.replace('/public/', ''));
+).map(path => path.replace('/public/videos/', './videos/'));
+
+function preloadVideo(src) {
+  if (preloadedVideos.has(src) || src === currentVideoSrc) return;
+  
+  const video = document.createElement('video');
+  video.src = src;
+  video.preload = 'auto';
+  video.muted = true;
+  video.load();
+  preloadedVideos.set(src, video);
+  console.log('Preloaded video:', src);
+}
+
+function preloadAllVideos() {
+  console.log('Starting video preload...');
+  const allVideos = [...workVideos, ...breakVideos];
+  allVideos.forEach(src => preloadVideo(src));
+  console.log('Video preload complete');
+}
 
 export function createVideo() {
   return new Promise((resolve) => {
     videoElement = document.createElement('video');
-    videoElement.src = '/videos/tv-sin-señal.mp4';
+    videoElement.src = './videos/tv-sin-señal.mp4';
     videoElement.loop = true;
     videoElement.muted = true;
-    currentVideoSrc = '/videos/tv-sin-señal.mp4';
+    currentVideoSrc = './videos/tv-sin-señal.mp4';
 
     videoElement.addEventListener('canplay', () => {
       videoTexture = new THREE.VideoTexture(videoElement);
@@ -30,6 +50,8 @@ export function createVideo() {
       const result = { video: videoElement, videoTexture };
       videoElement.play().catch(err => console.error('Video play failed:', err));
       resolve(result);
+      
+      preloadAllVideos();
     }, { once: true });
 
     videoElement.addEventListener('ended', handleVideoEnded);
@@ -65,9 +87,16 @@ function loadRandomVideoFromArray(videos) {
 function setVideoSrc(src) {
   if (!videoElement) return false;
 
-  videoElement.src = src;
+  const preloaded = preloadedVideos.get(src);
+  if (preloaded) {
+    videoElement.src = preloaded.src;
+    videoElement.currentTime = 0;
+  } else {
+    videoElement.src = src;
+  }
+  
   currentVideoSrc = src;
-  videoElement.loop = (src === '/videos/tv-sin-señal.mp4');
+  videoElement.loop = (src === './videos/tv-sin-señal.mp4');
   videoTexture.image = videoElement;
   videoTexture.needsUpdate = true;
 
@@ -82,7 +111,7 @@ export async function setVideoMode(mode) {
 
   switch (mode) {
     case 'reset':
-      return setVideoSrc('/videos/tv-sin-señal.mp4');
+      return setVideoSrc('./videos/tv-sin-señal.mp4');
 
     case 'work':
       return loadRandomVideoFromArray(workVideos);
@@ -93,10 +122,22 @@ export async function setVideoMode(mode) {
 
     default:
       console.warn(`Unknown video mode: ${mode}`);
-      return setVideoSrc('/videos/tv-sin-señal.mp4');
+      return setVideoSrc('./videos/tv-sin-señal.mp4');
   }
 }
 
 export function getVideoElement() {
   return videoElement;
+}
+
+export function pauseVideo() {
+  if (videoElement) {
+    videoElement.pause();
+  }
+}
+
+export function resumeVideo() {
+  if (videoElement && videoElement.paused) {
+    videoElement.play().catch(err => console.error('Video play failed:', err));
+  }
 }

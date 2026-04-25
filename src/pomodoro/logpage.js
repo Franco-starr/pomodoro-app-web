@@ -1,5 +1,12 @@
 import { getAllLogs, getStats, deleteLog, clearAllLogs, formatDate, exportLogsAsJSON } from './logs.js';
 
+// Detectar si es Electron o Web
+if (window.electronAPI) {
+    document.body.classList.add('is-electron');
+} else {
+    document.body.classList.add('is-web');
+}
+
 /*------- Window Controls ------- */
 document.getElementById("logs-min-btn").addEventListener("click", () => {
     window.electronAPI.logsMinimize();
