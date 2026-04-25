@@ -1,5 +1,18 @@
 import { getAllLogs, getStats, deleteLog, clearAllLogs, formatDate, exportLogsAsJSON } from './logs.js';
 
+/*------- Window Controls ------- */
+document.getElementById("logs-min-btn").addEventListener("click", () => {
+    window.electronAPI.logsMinimize();
+});
+
+document.getElementById("logs-close-btn").addEventListener("click", () => {
+    if (window.electronAPI) {
+        window.electronAPI.logsClose();
+    } else {
+        window.location.href = '/index.html';
+    }
+});
+
 /*------- Sessions Modal ------- */
 const sessionsBtn = document.getElementById("sessions-btn");
 const logsModal = document.getElementById("logs-modal");
