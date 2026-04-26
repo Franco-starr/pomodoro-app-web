@@ -41,6 +41,12 @@ export async function requestNotificationPermission() {
 
 export function showNotification(title, body) {
     if (!isNotificationsEnabled()) return;
+
+    if (window.electronAPI) {
+        window.electronAPI.showNotification(title, body);
+        return;
+    }
+
     if (!("Notification" in window)) return;
     if (Notification.permission !== "granted") return;
 

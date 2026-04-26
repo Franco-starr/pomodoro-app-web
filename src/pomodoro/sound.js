@@ -1,7 +1,7 @@
 "use strict";
 
-const TICK_SOUND_PATH = "/audio/Egg Timer Clock Ticking  Useful Every Days Sounds  Filmmaker's Sound Effects.mp3";
-const BELL_SOUND_PATH = "/audio/Egg Timer Ring Sound Effect.mp3";
+const TICK_SOUND_PATH = "./audio/Egg Timer Clock Ticking  Useful Every Days Sounds  Filmmaker's Sound Effects.mp3";
+const BELL_SOUND_PATH = "./audio/Egg Timer Ring Sound Effect.mp3";
 
 let tickSound = null;
 let bellSound = null;
@@ -9,9 +9,11 @@ let bellSound = null;
 function initSounds() {
     tickSound = new Audio(TICK_SOUND_PATH);
     tickSound.preload = "auto";
+    tickSound.load();
 
     bellSound = new Audio(BELL_SOUND_PATH);
     bellSound.preload = "auto";
+    bellSound.load();
 }
 
 function playTickSound() {

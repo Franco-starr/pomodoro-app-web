@@ -5,7 +5,7 @@ export function loadTV(scene, crtMaterial) {
 
   const loader = new GLTFLoader();
 
-  loader.load('/model/tv/scene.gltf', (gltf) => {
+  loader.load('./model/tv/scene.gltf', (gltf) => {
     const model = gltf.scene;
 
     model.scale.set(0.4, 0.4, 0.4);
